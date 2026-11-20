@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leonida Key Art — GTA VI Cover Studio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="brand-mark">LK</span> LEONIDA KEY ART <em>cover studio</em></div>
+  <div class="top-note">One hero photo, a drawn Vice City skyline, and your title &middot; runs offline &middot; your photos never leave this machine</div>
+</header>
+<main class="workbench">
+  <section class="stage">
+    <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+    <div class="stage-hint" id="hint">Drag the photo to move it &middot; scroll to zoom</div>
+    <figure class="thumbcheck">
+      <canvas id="thumb" width="168" height="168" aria-label="Thumbnail check"></canvas>
+      <figcaption>Thumbnail check &mdash; how the cover reads small</figcaption>
+    </figure>
+  </section>
+  <aside class="panel">
+    <section class="group">
+      <h2>1 &middot; Hero photo</h2>
+      <div class="thumbs" id="thumbs"></div>
+      <label class="upload">Upload your own photo
+        <input id="upload" type="file" accept="image/*">
+      </label>
+      <div class="row">
+        <button id="zoomOut" type="button" title="Zoom out">&minus;</button>
+        <input id="zoom" type="range" min="1" max="3" step="0.01" value="1" aria-label="Zoom">
+        <button id="zoomIn" type="button" title="Zoom in">+</button>
+      </div>
+      <p class="tiny">Zoom and drag apply to the hero photo.</p>
+    </section>
+    <section class="group">
+      <h2>2 &middot; Scene</h2>
+      <div class="choices" id="scenes"></div>
+      <p class="tiny">A scene re-lights the whole poster: sun, skyline, grade and title.</p>
+    </section>
+    <section class="group">
+      <h2>3 &middot; Skyline</h2>
+      <div class="choices" id="skylines"></div>
+      <label class="check"><input id="palms" type="checkbox" checked> Palm silhouettes</label>
+      <label class="check"><input id="sun" type="checkbox" checked> Sun / moon disc</label>
+    </section>
+    <section class="group">
+      <h2>4 &middot; Lettering</h2>
+      <label class="field">Title
+        <input id="title" value="VICE CITY" maxlength="24" autocomplete="off">
+      </label>
+      <label class="field">Script line
+        <input id="subtitle" value="welcome back to leonida" maxlength="40" autocomplete="off">
+      </label>
+      <label class="field">Tagline
+        <input id="tagline" value="SUMMER 2026 • LEONIDA" maxlength="40" autocomplete="off">
+      </label>
+      <div class="choices" id="placements"></div>
+      <div class="choices" id="styles"></div>
+      <label class="field">Letter spacing
+        <input id="tracking" type="range" min="0" max="12" step="1" value="6" aria-label="Letter spacing">
+      </label>
+      <label class="check"><input id="grain" type="checkbox" checked> Film grain</label>
+      <label class="check"><input id="vignette" type="checkbox" checked> Vignette</label>
+    </section>
+    <section class="group">
+      <h2>5 &middot; Shuffle &amp; export</h2>
+      <button id="shuffle" type="button" class="shuffle">Shuffle a new poster</button>
+      <div class="row sizes">
+        <button type="button" data-size="1080x1080">1080 &times; 1080</button>
+        <button type="button" data-size="1080x1350">1080 &times; 1350</button>
+        <button type="button" data-size="1920x1080">1920 &times; 1080</button>
+      </div>
+      <p class="tiny" id="status">Ready.</p>
+    </section>
+  </aside>
+</main>
+<footer class="foot">Leonida Key Art is an unofficial fan-made tool. Not affiliated with Rockstar Games. All art here is original; sample photos were made for this tool with an image model.</footer>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
