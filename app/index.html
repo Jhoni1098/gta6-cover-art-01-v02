@@ -1,82 +1,107 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Leonida Key Art — GTA VI Cover Studio</title>
+<title>Leonida Key Art — GTA VI Key-Art Studio</title>
 <link rel="stylesheet" href="style.css">
+<link rel="preload" href="fonts/BebasNeue-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="fonts/Pacifico-Regular.ttf" as="font" type="font/ttf" crossorigin>
 </head>
 <body>
-<header class="top">
-  <div class="brand"><span class="brand-mark">LK</span> LEONIDA KEY ART <em>cover studio</em></div>
-  <div class="top-note">One hero photo, a drawn Vice City skyline, and your title &middot; runs offline &middot; your photos never leave this machine</div>
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="kicker">Leonida &middot; Vice City &middot; Key-Art Studio</p>
+    <h1>Leonida Key Art</h1>
+    <p class="lede">One hero photo, one drawn skyline, one sunset. Turn any picture into
+    GTA&nbsp;VI-style key art and export it as a PNG to share. Runs fully offline —
+    your photos never leave this machine.</p>
+  </div>
 </header>
-<main class="workbench">
-  <section class="stage">
-    <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
-    <div class="stage-hint" id="hint">Drag the photo to move it &middot; scroll to zoom</div>
-    <figure class="thumbcheck">
-      <canvas id="thumb" width="168" height="168" aria-label="Thumbnail check"></canvas>
-      <figcaption>Thumbnail check &mdash; how the cover reads small</figcaption>
-    </figure>
+
+<main class="layout">
+  <section class="stage-col">
+    <div class="preview-frame">
+      <canvas id="coverCanvas" width="1080" height="1080" aria-label="Key art preview"></canvas>
+      <div class="frame-tag" id="frameTag">1080 &times; 1080 &middot; Square</div>
+    </div>
+    <div class="thumb-row">
+      <div class="thumb-box">
+        <p class="thumb-label">Thumbnail check &middot; 120&nbsp;px</p>
+        <canvas id="thumbCanvas" width="120" height="120"></canvas>
+        <p class="thumb-verdict" id="thumbVerdict">Checking legibility&hellip;</p>
+      </div>
+      <div class="thumb-note">
+        <p><strong>Small-preview test.</strong> The cover is re-rendered at 120&nbsp;px —
+        the size of a feed thumbnail. If the title stays readable there, it will
+        read anywhere. Short titles in big Bebas lettering pass; long ones fail.</p>
+        <p class="fineprint">Official GTA&nbsp;VI cover art was revealed 18 June 2026:
+        a multi-panel collage with Lucia Caminos and Jason Duval at its centre,
+        in a pink, purple and orange palette. GTA&nbsp;VI launched 19 November 2026
+        on PlayStation&nbsp;5 and Xbox Series&nbsp;X|S. This studio is an original
+        tribute — no Rockstar logo, artwork or fonts are used. All sample photos
+        are original AI-made images.</p>
+      </div>
+    </div>
   </section>
-  <aside class="panel">
-    <section class="group">
-      <h2>1 &middot; Hero photo</h2>
-      <div class="thumbs" id="thumbs"></div>
-      <label class="upload">Upload your own photo
-        <input id="upload" type="file" accept="image/*">
+
+  <aside class="controls" aria-label="Cover controls">
+    <section class="panel">
+      <h2>1 &middot; Hero scene</h2>
+      <div class="scene-grid" id="sceneGrid"></div>
+      <label class="upload-btn">Upload your own photo
+        <input type="file" id="photoUpload" accept="image/*" hidden>
       </label>
-      <div class="row">
-        <button id="zoomOut" type="button" title="Zoom out">&minus;</button>
-        <input id="zoom" type="range" min="1" max="3" step="0.01" value="1" aria-label="Zoom">
-        <button id="zoomIn" type="button" title="Zoom in">+</button>
+      <div class="sliders">
+        <label>Zoom <input type="range" id="zoomRange" min="100" max="220" value="100"></label>
+        <label>Pan <input type="range" id="panRange" min="-50" max="50" value="0"></label>
       </div>
-      <p class="tiny">Zoom and drag apply to the hero photo.</p>
     </section>
-    <section class="group">
-      <h2>2 &middot; Scene</h2>
-      <div class="choices" id="scenes"></div>
-      <p class="tiny">A scene re-lights the whole poster: sun, skyline, grade and title.</p>
+
+    <section class="panel">
+      <h2>2 &middot; Drawn skyline</h2>
+      <div class="chip-row" id="skylineChips"></div>
+      <p class="hint">Every skyline is drawn live with canvas paths — palm trees,
+      towers and a big low sun. No stock silhouette is pasted in.</p>
     </section>
-    <section class="group">
-      <h2>3 &middot; Skyline</h2>
-      <div class="choices" id="skylines"></div>
-      <label class="check"><input id="palms" type="checkbox" checked> Palm silhouettes</label>
-      <label class="check"><input id="sun" type="checkbox" checked> Sun / moon disc</label>
-    </section>
-    <section class="group">
-      <h2>4 &middot; Lettering</h2>
+
+    <section class="panel">
+      <h2>3 &middot; Lettering</h2>
       <label class="field">Title
-        <input id="title" value="VICE CITY" maxlength="24" autocomplete="off">
+        <input type="text" id="titleInput" value="VICE CITY NIGHTS" maxlength="28">
       </label>
-      <label class="field">Script line
-        <input id="subtitle" value="welcome back to leonida" maxlength="40" autocomplete="off">
+      <label class="field">Script subtitle
+        <input type="text" id="subtitleInput" value="welcome to Leonida" maxlength="40">
       </label>
-      <label class="field">Tagline
-        <input id="tagline" value="SUMMER 2026 • LEONIDA" maxlength="40" autocomplete="off">
+      <label class="field">Ribbon badge
+        <input type="text" id="badgeInput" value="LEONIDA &bull; VICE CITY" maxlength="32">
       </label>
-      <div class="choices" id="placements"></div>
-      <div class="choices" id="styles"></div>
-      <label class="field">Letter spacing
-        <input id="tracking" type="range" min="0" max="12" step="1" value="6" aria-label="Letter spacing">
-      </label>
-      <label class="check"><input id="grain" type="checkbox" checked> Film grain</label>
-      <label class="check"><input id="vignette" type="checkbox" checked> Vignette</label>
     </section>
-    <section class="group">
-      <h2>5 &middot; Shuffle &amp; export</h2>
-      <button id="shuffle" type="button" class="shuffle">Shuffle a new poster</button>
-      <div class="row sizes">
-        <button type="button" data-size="1080x1080">1080 &times; 1080</button>
-        <button type="button" data-size="1080x1350">1080 &times; 1350</button>
-        <button type="button" data-size="1920x1080">1920 &times; 1080</button>
+
+    <section class="panel">
+      <h2>4 &middot; Grade</h2>
+      <div class="chip-row" id="gradeChips"></div>
+    </section>
+
+    <section class="panel">
+      <h2>5 &middot; Export</h2>
+      <div class="size-row">
+        <button class="size-btn" data-size="square">1080 &times; 1080</button>
+        <button class="size-btn" data-size="portrait">1080 &times; 1350</button>
+        <button class="size-btn" data-size="wide">1920 &times; 1080</button>
       </div>
-      <p class="tiny" id="status">Ready.</p>
+      <button class="export-btn" id="exportBtn">Download PNG</button>
+      <button class="shuffle-btn" id="shuffleBtn">&#10227; Shuffle the look</button>
+      <p class="hint" id="exportNote">Ready — one click saves the current cover.</p>
     </section>
   </aside>
 </main>
-<footer class="foot">Leonida Key Art is an unofficial fan-made tool. Not affiliated with Rockstar Games. All art here is original; sample photos were made for this tool with an image model.</footer>
+
+<footer class="foot">
+  <p>Leonida Key Art — an original, offline key-art studio. Not affiliated with
+  Rockstar Games. Fonts: Bebas Neue &amp; Pacifico (SIL Open Font License).</p>
+</footer>
+
 <script type="module" src="src/main.js"></script>
 </body>
 </html>
